@@ -1,0 +1,16 @@
+{
+  "short_name": "Farmix",
+  "name": "Farmix Smart Agri Connect",
+  "icons": [
+    {
+      "src": "Farmixlogo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#14532d",
+  "background_color": "#f8fafc"
+}

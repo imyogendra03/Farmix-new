@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500 ease-in-out;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Global Transition for smooth theme switching */
+* {
+  @apply transition-colors duration-300 ease-in-out;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/20 dark:border-gray-700/50 shadow-lg transition-all duration-300;
+}
+
+.glass-nav {
+  @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 supports-[backdrop-filter]:bg-white/60 transition-all duration-300;
+}
+
+/* Base custom classes rewritten to standard css or minimal apply */
+.btn-primary {
+  @apply bg-gradient-to-r from-nature-500 to-nature-600 hover:from-nature-600 hover:to-nature-700 text-white px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 outline-none;
+}
+.btn-primary:focus {
+  @apply ring-4 ring-nature-500/30;
+}
+
+.btn-outline {
+  @apply border-2 border-nature-500 text-nature-600 dark:text-nature-400 dark:border-nature-500 px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 outline-none;
+}
+.btn-outline:hover {
+  @apply bg-nature-50 dark:bg-nature-900/30 text-nature-700 dark:text-nature-300 shadow-md;
+}
+.btn-outline:focus {
+  @apply ring-4 ring-nature-500/30;
+}
+
+/* Shimmer animation for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.dark .shimmer {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Notification Pulse */
+@keyframes notificationPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.notification-pulse {
+  animation: notificationPulse 2s infinite;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl border border-gray-100/50 dark:border-gray-700/50 overflow-hidden transition-all duration-300 hover:-translate-y-1;
+}
+
+.input-field {
+  @apply w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 dark:text-white rounded-xl outline-none transition-all duration-300 focus:bg-white dark:focus:bg-gray-800;
+}
+.input-field:focus {
+  @apply ring-4 ring-nature-500/20 border-nature-500 dark:border-nature-400;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors;
+}
+
+/* WhatsApp Style Bubble Tails */
+.whatsapp-tail-right {
+  position: relative;
+}
+.whatsapp-tail-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  clip-path: polygon(0 0, 0 100%, 100% 0);
+}
+
+.whatsapp-tail-left {
+  position: relative;
+}
+.whatsapp-tail-left::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.message-actions {
+  @apply opacity-0 group-hover:opacity-100 transition-opacity absolute top-1 right-1 flex gap-1 bg-white/20 dark:bg-black/10 backdrop-blur-sm rounded-lg p-1 z-20;
+}
