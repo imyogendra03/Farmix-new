@@ -159,7 +159,7 @@ if (fs.existsSync(clientBuildPath)) {
 
   // Middleware to serve index.html for non-API GET requests so React Router can handle client-side routing
   app.use((req, res, next) => {
-    if (req.method !== 'GET') return next();
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
     res.sendFile(path.join(clientBuildPath, 'index.html'));
   });
