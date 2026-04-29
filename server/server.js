@@ -19,6 +19,7 @@ const { configureSocketServer } = require('./socket');
 
 const app = express();
 const httpServer = http.createServer(app);
+const fs = require('fs');
 app.set('trust proxy', 1);
 const io = new Server(httpServer, {
   cors: createCorsOptions()
@@ -150,6 +151,22 @@ app.get('/api/health', (req, res) => {
     requestId: req.id
   });
 });
+
+// Serve client build (if present) - allow Render or other hosts to serve single service
+const clientBuildPath = path.join(__dirname, '..', 'client', 'build');
+if (fs.existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath, { maxAge: '1d' }));
+
+  // Middleware to serve index.html for non-API GET requests so React Router can handle client-side routing
+  app.use((req, res, next) => {
+    if (req.method !== 'GET') return next();
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+} else {
+  // in case client build is not deployed alongside server, log a helpful message
+  logger.info('Client build not found; skipping static client serving', { path: clientBuildPath });
+}
 
 app.use(notFoundHandler);
 app.use(errorHandler);

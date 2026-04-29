@@ -246,7 +246,7 @@ const Home = () => {
                 disabled={loading}
                 className="w-full bg-nature-600 hover:bg-nature-700 text-white font-bold py-3 rounded-lg transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {loading ? 'Sending...' : <><Send className="w-5 h-5" /> {t('send')}</>}
+                {loading ? 'Sending...' : <span className="flex items-center gap-2"><Send className="w-5 h-5" /> {t('send')}</span>}
               </button>
             </form>
           </div>

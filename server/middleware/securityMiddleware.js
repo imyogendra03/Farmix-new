@@ -87,7 +87,10 @@ const verifyTrustedOrigin = (req, res, next) => {
 
   if (!requestOrigin && referer) {
     try {
-      requestOrigin = new URL(referer).origin;
+      // Some clients may send a referer without a protocol (e.g. "localhost:3000");
+      // normalize by assuming http when missing to avoid URL parsing errors.
+      const normalizedReferer = /:\/\//.test(referer) ? referer : `http://${referer.replace(/^\/+/, '')}`;
+      requestOrigin = new URL(normalizedReferer).origin;
     } catch (_error) {
       res.status(403);
       return next(new Error('Invalid request origin'));
