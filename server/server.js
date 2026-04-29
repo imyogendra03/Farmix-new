@@ -154,18 +154,23 @@ app.get('/api/health', (req, res) => {
 
 // Serve client build (if present) - allow Render or other hosts to serve single service
 const clientBuildPath = path.join(__dirname, '..', 'client', 'build');
-if (fs.existsSync(clientBuildPath)) {
+const clientIndexPath = path.join(clientBuildPath, 'index.html');
+
+if (fs.existsSync(clientBuildPath) && fs.existsSync(clientIndexPath)) {
   app.use(express.static(clientBuildPath, { maxAge: '1d' }));
 
   // Middleware to serve index.html for non-API GET requests so React Router can handle client-side routing
   app.use((req, res, next) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
+    res.sendFile(clientIndexPath);
   });
 } else {
   // in case client build is not deployed alongside server, log a helpful message
-  logger.info('Client build not found; skipping static client serving', { path: clientBuildPath });
+  logger.info('Client build not found or incomplete; skipping static client serving', {
+    buildPath: clientBuildPath,
+    indexPath: clientIndexPath
+  });
 
   app.get('/', (req, res) => {
     res.status(200).json({
