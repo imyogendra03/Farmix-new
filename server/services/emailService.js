@@ -77,7 +77,7 @@ class EmailService {
 
     const token = this.createUnsubscribeToken(String(userId));
     const serverBase = process.env.SERVER_URL || process.env.API_URL || 'http://localhost:5000';
-    const unsubscribeUrl = `${serverBase}/api/api/auth/unsubscribe?token=${token}&category=${category}`;
+    const unsubscribeUrl = `${serverBase}/api/api/api/auth/unsubscribe?token=${token}&category=${category}`;
 
     return `${html}
       <div style="margin-top:16px;padding-top:12px;border-top:1px solid #e5e7eb;text-align:center;">

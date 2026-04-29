@@ -54,7 +54,7 @@
               "raw": "{\n  \"name\": \"Test Farmer\",\n  \"email\": \"farmer@example.com\",\n  \"password\": \"StrongPass1!\",\n  \"phone\": \"+91 9999999999\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/farmer/register",
+              "raw": "{{baseUrl}}/api/api/auth/farmer/register",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -81,7 +81,7 @@
               "raw": "{\n  \"email\": \"farmer@example.com\",\n  \"password\": \"StrongPass1!\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/login",
+              "raw": "{{baseUrl}}/api/api/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -103,7 +103,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/me",
+              "raw": "{{baseUrl}}/api/api/auth/me",
               "host": [
                 "{{baseUrl}}"
               ],

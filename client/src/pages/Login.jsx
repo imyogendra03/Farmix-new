@@ -38,7 +38,7 @@ const Login = () => {
     setError('');
     setLoading(true);
     try {
-      const response = await api.post(`/api/auth/${activeTab}/login`, {
+      const response = await api.post(`/api/api/auth/${activeTab}/login`, {
         email: formData.email,
         password: formData.password
       });
@@ -95,7 +95,7 @@ const Login = () => {
 
     setOtpLoading(true);
     try {
-      const response = await api.post('/api/auth/verify-login-otp', {
+      const response = await api.post('/api/api/auth/verify-login-otp', {
         email: formData.email,
         otp
       });
@@ -122,7 +122,7 @@ const Login = () => {
   const handleResendOTP = async () => {
     setOtpLoading(true);
     try {
-      await api.post('/api/auth/resend-otp', { email: formData.email });
+      await api.post('/api/api/auth/resend-otp', { email: formData.email });
       setOtp('');
       toast.success('OTP resent to your email!');
     } catch (err) {

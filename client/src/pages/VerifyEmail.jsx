@@ -21,7 +21,7 @@ const VerifyEmail = () => {
       }
 
       try {
-        await api.post('/api/auth/verify-email', { token });
+        await api.post('/api/api/auth/verify-email', { token });
         setStatus('success');
         setMessage('Your email address has been verified successfully.');
         toast.success('Email verified successfully.');

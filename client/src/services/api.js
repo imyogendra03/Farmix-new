@@ -1,7 +1,38 @@
 import axios from 'axios';
 
-const normalizeBaseUrl = (url) => (url || 'http://localhost:5000/api').replace(/\/+$/, '');
-const AUTH_FREE_PATHS = ['/api/auth/login', '/api/auth/farmer/login', '/api/auth/expert/login', '/api/auth/admin/login', '/api/auth/refresh-token', '/api/auth/logout'];
+const PRODUCTION_API_URL = 'https://farmix-0e93.onrender.com';
+
+const isLocalBrowser = () => {
+  if (typeof window === 'undefined') return true;
+  return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+};
+
+const normalizeBaseUrl = (url) => {
+  const providedUrl = (url || '').trim();
+  const shouldUseProductionApi =
+    !isLocalBrowser() &&
+    (!providedUrl || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(providedUrl));
+
+  const normalized = (shouldUseProductionApi ? PRODUCTION_API_URL : providedUrl || 'http://localhost:5000').replace(/\/+$/, '');
+  return normalized.endsWith('/api') ? normalized : `${normalized}/api`;
+};
+
+const normalizeApiPath = (url = '') => {
+  if (/^https?:\/\//i.test(url)) return url;
+
+  const [path, query = ''] = String(url).split('?');
+  const normalizedPath = `/${path.replace(/^\/+/, '')}`.replace(/^(\/api)+(?=\/|$)/, '') || '/';
+  return query ? `${normalizedPath}?${query}` : normalizedPath;
+};
+
+const AUTH_FREE_PATHS = [
+  '/auth/login',
+  '/auth/farmer/login',
+  '/auth/expert/login',
+  '/auth/admin/login',
+  '/auth/refresh-token',
+  '/auth/logout'
+];
 
 const getStoredSession = () => {
   try {
@@ -52,7 +83,10 @@ const redirectToLogin = () => {
   }
 };
 
-const isAuthFreePath = (url = '') => AUTH_FREE_PATHS.some((path) => url.includes(path));
+const isAuthFreePath = (url = '') => {
+  const normalizedUrl = normalizeApiPath(url);
+  return AUTH_FREE_PATHS.some((path) => normalizedUrl.includes(path));
+};
 
 const api = axios.create({
   baseURL: normalizeBaseUrl(process.env.REACT_APP_API_URL),
@@ -77,7 +111,7 @@ const requestAccessTokenRefresh = async () => {
   }
 
   const { data } = await axios.post(
-    `${api.defaults.baseURL}/api/auth/refresh-token`,
+    `${api.defaults.baseURL}/auth/refresh-token`,
     { refreshToken },
     {
       timeout: 15000,
@@ -113,6 +147,8 @@ const refreshAccessTokenOnce = async () => {
 // Request interceptor to add JWT token if available
 api.interceptors.request.use(
   (config) => {
+    config.url = normalizeApiPath(config.url);
+
     const user = getStoredSession();
     if (user && user.token) {
       config.headers.Authorization = `Bearer ${user.token}`;

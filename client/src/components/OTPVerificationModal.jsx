@@ -32,7 +32,7 @@ const OTPVerificationModal = ({ email, phone, onOTPVerified, onCancel }) => {
     setError('');
     setLoading(true);
     try {
-      const res = await api.post('/api/auth/send-otp', {
+      const res = await api.post('/api/api/auth/send-otp', {
         email: email.toLowerCase(),
         phone: phone
       });
@@ -60,7 +60,7 @@ const OTPVerificationModal = ({ email, phone, onOTPVerified, onCancel }) => {
 
     setLoading(true);
     try {
-      const res = await api.post('/api/auth/verify-otp', {
+      const res = await api.post('/api/api/auth/verify-otp', {
         email: email.toLowerCase(),
         otp: otp
       });
@@ -84,7 +84,7 @@ const OTPVerificationModal = ({ email, phone, onOTPVerified, onCancel }) => {
     setError('');
     setLoading(true);
     try {
-      const res = await api.post('/api/auth/resend-otp', {
+      const res = await api.post('/api/api/auth/resend-otp', {
         email: email.toLowerCase()
       });
 

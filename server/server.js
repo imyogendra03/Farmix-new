@@ -105,15 +105,15 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
 
 // Apply rate limiting
 app.use('/api/', apiLimiter);
-app.use('/api/api/auth/farmer/register', registrationLimiter);
-app.use('/api/api/auth/expert/register', registrationLimiter);
-app.use('/api/api/auth/login', authLimiter);
-app.use('/api/api/auth/farmer/login', authLimiter);
-app.use('/api/api/auth/expert/login', authLimiter);
-app.use('/api/api/auth/admin/login', authLimiter);
-app.use('/api/api/auth/forgot-password', passwordRecoveryLimiter);
-app.use('/api/api/auth/reset-password', passwordRecoveryLimiter);
-app.use('/api/api/auth/refresh-token', tokenRotationLimiter);
+app.use('/api/auth/farmer/register', registrationLimiter);
+app.use('/api/auth/expert/register', registrationLimiter);
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/farmer/login', authLimiter);
+app.use('/api/auth/expert/login', authLimiter);
+app.use('/api/auth/admin/login', authLimiter);
+app.use('/api/auth/forgot-password', passwordRecoveryLimiter);
+app.use('/api/auth/reset-password', passwordRecoveryLimiter);
+app.use('/api/auth/refresh-token', tokenRotationLimiter);
 app.use('/api/admin', adminLimiter);
 
 // Routes
@@ -166,6 +166,15 @@ if (fs.existsSync(clientBuildPath)) {
 } else {
   // in case client build is not deployed alongside server, log a helpful message
   logger.info('Client build not found; skipping static client serving', { path: clientBuildPath });
+
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: 'Farmix API is running',
+      health: '/api/health',
+      requestId: req.id
+    });
+  });
 }
 
 app.use(notFoundHandler);
