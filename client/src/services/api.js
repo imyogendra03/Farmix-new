@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const normalizeBaseUrl = (url) => (url || 'http://localhost:5000/api').replace(/\/+$/, '');
-const AUTH_FREE_PATHS = ['/auth/login', '/auth/farmer/login', '/auth/expert/login', '/auth/admin/login', '/auth/refresh-token', '/auth/logout'];
+const AUTH_FREE_PATHS = ['/api/auth/login', '/api/auth/farmer/login', '/api/auth/expert/login', '/api/auth/admin/login', '/api/auth/refresh-token', '/api/auth/logout'];
 
 const getStoredSession = () => {
   try {
@@ -77,7 +77,7 @@ const requestAccessTokenRefresh = async () => {
   }
 
   const { data } = await axios.post(
-    `${api.defaults.baseURL}/auth/refresh-token`,
+    `${api.defaults.baseURL}/api/auth/refresh-token`,
     { refreshToken },
     {
       timeout: 15000,

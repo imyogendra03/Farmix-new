@@ -94,7 +94,7 @@ const Register = () => {
 
     setOtpLoading(true);
     try {
-      await api.post('/auth/verify-registration-otp', {
+      await api.post('/api/auth/verify-registration-otp', {
         email: registeredEmail,
         otp
       });
@@ -121,7 +121,7 @@ const Register = () => {
   const handleResendOTP = async () => {
     setOtpLoading(true);
     try {
-      await api.post('/auth/resend-otp', { email: registeredEmail });
+      await api.post('/api/auth/resend-otp', { email: registeredEmail });
       setOtp('');
       toast.success('OTP resent to your email!');
     } catch (err) {

@@ -57,7 +57,7 @@ const ExpertDetail = () => {
 
         // Get user role
         try {
-          const userRes = await api.get('/auth/me');
+          const userRes = await api.get('/api/auth/me');
           if (userRes.data.success) {
             setUserRole(userRes.data.data.role);
           }

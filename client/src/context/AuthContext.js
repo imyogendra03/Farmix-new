@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password, loginAs) => {
-    const res = await api.post('/auth/login', { email, password, loginAs });
+    const res = await api.post('/api/auth/login', { email, password, loginAs });
     if (res.data.success) {
       setSession(res.data.data);
       return { ...res.data, redirectTo: getRedirectPath(res.data.data) };
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const registerFarmer = async (data) => {
-    const res = await api.post('/auth/farmer/register', data);
+    const res = await api.post('/api/auth/farmer/register', data);
     if (res.data.success) {
       return res.data;
     }
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const registerExpert = async (data) => {
-    const res = await api.post('/auth/expert/register', data);
+    const res = await api.post('/api/auth/expert/register', data);
     if (res.data.success) {
       return res.data;
     }
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
     if (refreshToken) {
       try {
-        await api.post('/auth/logout', { refreshToken });
+        await api.post('/api/auth/logout', { refreshToken });
       } catch {
         // Ignore logout errors; always clear local session.
       }
